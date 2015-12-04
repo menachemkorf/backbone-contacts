@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts</title>
+</head>
+<body>
+    <div class="container">
+    <h1>Contacts</h1>
+    <h3>Add Contact</h3>
+        <div class="add-form">
+            <input type="text" class="name-input" placeholder="name">
+            <input type="text" class="email-input" placeholder="email">
+            <input type="text" class="phone-input" placeholder="phone">
+            <button class="add">Add</button>
+        </div>
+        <div class="search-contacts" style="margin-top:10px">
+            <input type="text" class="search-input" placeholder="search names">
+            <button class="search">Search</button>
+            <button class="reset">Reset</button>
+        </div>
+
+        <table>
+            <thead class="contacts-header">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="contacts"></tbody>
+        </table>
+
+    </div>
+
+    <script type="text/template" class="contact-list-template">
+        <td class="name"><%= name %></td>
+        <td class="email"><%= email %></td>
+        <td class="phone"><%= phone %></td>
+        <td>
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+            <button class="update" style="display: none">Update</button>
+            <button class="cancel" style="display: none">Cancel</button>
+        </td>
+    </script>
+
+    <script type="text/template" class="edit-list-template">
+        <td><input type="text" class="name-input" value="<%= name %>"/></td>
+        <td><input type="text" class="email-input" value="<%= email %>"/></td>
+        <td><input type="text" class="phone-input" value="<%= phone %>"/></td>
+        <td>
+            <button class="edit" style="display: none">Edit</button>
+            <button class="delete" style="display: none">Delete</button>
+            <button class="update">Update</button>
+            <button class="cancel">Cancel</button>
+        </td>
+    </script>
+
+
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/backbone/backbone.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
