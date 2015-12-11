@@ -13,13 +13,13 @@ var Contact = Backbone.Model.extend({
 var john = new Contact({
     name: 'John',
     email: 'john@example.com',
-    phone: '5555555555',
+    phone: '5555555555'
 });
 
 var jack = new Contact({
     name: 'Jack',
     email: 'jack@example.com',
-    phone: '4444444444',
+    phone: '4444444444'
 });
 
 //collection - contacts
@@ -34,7 +34,7 @@ var ContactItemView = Backbone.View.extend({
         'click .edit': 'editContact',
         'click .delete': 'deleteContact',
         'click .update': 'updateContact',
-        'click .cancel': 'render',
+        'click .cancel': 'render'
     },
 
     //template for regular view
@@ -60,7 +60,7 @@ var ContactItemView = Backbone.View.extend({
             phone: this.$('.phone-input').val()
         };
         this.model.set(contact);
-        this.render()
+        this.render();
     }
 });
 
@@ -68,8 +68,19 @@ var ContactItemView = Backbone.View.extend({
 var ContactListView = Backbone.View.extend({
     el: '.contacts',
     collection: contactList,
+    _views: [], //array to handle ContactItemViews
+    num: 0,
+    events: {
+        'click': function() {
+            console.log(this._views.length);
+            console.log(this.collection.length);
+        }
+    },
     initialize: function() {
+        this.reset();
         this.render();
+        this.listenTo(this.collection, 'remove', this.reset);
+        this.listenTo(this.collection, 'add', this.addItem);
         this.listenTo(this.collection, 'all', this.render);
     },
     render: function() {
@@ -78,16 +89,31 @@ var ContactListView = Backbone.View.extend({
         var self = this;
 
         //append each contact view
-        this.collection.each(function(item) {
-            var contact = new ContactItemView({model: item});
+        _.each(this._views, function(item) {
 
             //check if visible
-            if(item.get('visibile') == true) {
-                self.$el.append(contact.render().el);
+            if(item.model.get('visibile') === true) {
+                self.$el.append(item.render().el);
+                //need to re-delegate events
+                item.delegateEvents();
             }
+            return this;
         });
 
         return this;
+    },
+    reset: function() {
+        var self = this;
+        this._views = [];
+
+        this.collection.each(function(item) {
+            self.addItem(item);
+        });
+    },
+    addItem: function(item) {
+        var contact = new ContactItemView({model: item});
+        //console.log(contact);
+        this._views.push(contact);
     }
 });
 
