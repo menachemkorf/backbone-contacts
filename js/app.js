@@ -69,13 +69,6 @@ var ContactListView = Backbone.View.extend({
     el: '.contacts',
     collection: contactList,
     _views: [], //array to handle ContactItemViews
-    num: 0,
-    events: {
-        'click': function() {
-            console.log(this._views.length);
-            console.log(this.collection.length);
-        }
-    },
     initialize: function() {
         this.reset();
         this.render();
